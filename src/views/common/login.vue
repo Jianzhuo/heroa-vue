@@ -2,39 +2,41 @@
   <div class="site-wrapper site-page--login">
     <div class="site-content__wrapper">
       <div class="site-content">
-        <div class="brand-info">
-          <h2 class="brand-info__text">Hero International</h2>
-          <p class="brand-info__intro">HI办公平台</p>
-        </div>
         <div class="login-main">
-          <h3 class="login-title">用户登录</h3>
-          <el-form
-            :model="dataForm"
-            :rules="dataRule"
-            ref="dataForm"
-            @keyup.enter.native="dataFormSubmit()"
-            status-icon
-          >
-            <el-form-item prop="userName">
-              <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
-            </el-form-item>
-            <el-form-item prop="captcha">
-              <el-row :gutter="20">
-                <el-col :span="14">
-                  <el-input v-model="dataForm.captcha" placeholder="验证码"></el-input>
-                </el-col>
-                <el-col :span="10" class="login-captcha">
-                  <img :src="captchaPath" @click="getCaptcha()" alt />
-                </el-col>
-              </el-row>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
-            </el-form-item>
-          </el-form>
+          <div class="brand-info">
+            <img src="~@/assets/img/logo.png" class="login-logo" />
+            <!--<p class="brand-info__intro">HI办公平台</p>-->
+          </div>
+          <div class="login-box">
+            <h3 class="login-title">用户登录</h3>
+            <el-form
+              :model="dataForm"
+              :rules="dataRule"
+              ref="dataForm"
+              @keyup.enter.native="dataFormSubmit()"
+              status-icon
+            >
+              <el-form-item prop="userName">
+                <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+              </el-form-item>
+              <el-form-item prop="captcha">
+                <el-row :gutter="20">
+                  <el-col :span="14">
+                    <el-input v-model="dataForm.captcha" placeholder="验证码"></el-input>
+                  </el-col>
+                  <el-col :span="10" class="login-captcha">
+                    <img :src="captchaPath" @click="getCaptcha()" alt />
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item>
+                <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </div>
     </div>
@@ -50,20 +52,20 @@ export default {
         userName: "",
         password: "",
         uuid: "",
-        captcha: ""
+        captcha: "",
       },
       dataRule: {
         userName: [
-          { required: true, message: "帐号不能为空", trigger: "blur" }
+          { required: true, message: "帐号不能为空", trigger: "blur" },
         ],
         password: [
-          { required: true, message: "密码不能为空", trigger: "blur" }
+          { required: true, message: "密码不能为空", trigger: "blur" },
         ],
         captcha: [
-          { required: true, message: "验证码不能为空", trigger: "blur" }
-        ]
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+        ],
       },
-      captchaPath: ""
+      captchaPath: "",
     };
   },
   created() {
@@ -72,7 +74,7 @@ export default {
   methods: {
     // 提交表单
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs["dataForm"].validate((valid) => {
         if (valid) {
           this.$http({
             url: this.$http.adornUrl("/sys/login"),
@@ -81,8 +83,8 @@ export default {
               username: this.dataForm.userName,
               password: this.dataForm.password,
               uuid: this.dataForm.uuid,
-              captcha: this.dataForm.captcha
-            })
+              captcha: this.dataForm.captcha,
+            }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$cookie.set("token", data.token);
@@ -101,8 +103,8 @@ export default {
       this.captchaPath = this.$http.adornUrl(
         `/captcha.jpg?uuid=${this.dataForm.uuid}`
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -117,7 +119,6 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(38, 50, 56, 0.6);
   overflow: hidden;
   &:before {
     position: fixed;
@@ -144,10 +145,11 @@ export default {
   }
   .site-content {
     min-height: 100%;
-    padding: 30px 500px 30px 30px;
+    padding: 30px;
+    text-align: center;
   }
   .brand-info {
-    margin: 220px 100px 0 90px;
+    margin: 0 auto 20px;
     color: #fff;
   }
   .brand-info__text {
@@ -164,12 +166,17 @@ export default {
   }
   .login-main {
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 150px 60px 180px;
-    width: 470px;
-    min-height: 100%;
+    padding: 0;
+    width: 25%;
+    top: 45%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -45%);
+    transform: translate(-50%, -45%);
+  }
+  .login-box {
     background-color: #fff;
+    padding: 30px;
+    margin: 0 auto;
   }
   .login-title {
     font-size: 16px;
@@ -183,15 +190,28 @@ export default {
   }
   .login-btn-submit {
     width: 100%;
-    margin-top: 38px;
+    margin-top: 0px;
+    background: #8a1913;
+    border-color: #8a1913;
+  }
+  .login-logo {
+    width: 350px;
+    height: auto;
   }
 }
 
 @media screen and (max-width: 600px) {
   /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+  .site-wrapper.site-page--login:before {
+    background-position: bottom right;
+  }
   .site-wrapper.site-page--login .brand-info {
-    margin: 0 auto;
+    margin: 0 auto 20px;
     color: #fff;
+  }
+
+  .site-wrapper.site-page--login .login-logo {
+    width: 80%;
   }
 
   .site-wrapper.site-page--login .brand-info__text {
@@ -202,16 +222,32 @@ export default {
   }
 
   .site-wrapper.site-page--login .login-main {
-    position: static;
-    padding: 1em;
-    width: 21.5em;
-    min-height: 100%;
-    background-color: #fff;
+    position: absolute;
+    padding: 0px;
+    width: 80%;
   }
 
   .site-wrapper.site-page--login .brand-info__intro {
     width: 200px;
     margin-bottom: 6em;
+  }
+
+  .el-form-item {
+    margin-bottom: 10px;
+  }
+  .site-wrapper.site-page--login .login-btn-submit {
+    margin-top: -5px;
+  }
+  .el-col-10 {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .el-col-14 {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 10px;
   }
 }
 </style>

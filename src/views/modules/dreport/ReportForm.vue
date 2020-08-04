@@ -2,15 +2,16 @@
   <div v-loading.lock="loading" element-loading-text="拼命加载中">
     <div v-if="check == 0"></div>
     <div v-if="check == 1">
-      <p>亲爱的{{userName}},今日日报已提交。</p>
-      <p>如有补充修改，请按公司流程找Ronnie索取纸质报表完成补充申报！</p>
+      <h1>今日日报</h1>
+      <p style="color:#A67A2B">亲爱的{{userName}}，今日日报已提交，今天您辛苦了。</p>
+      <p><i class="el-alert__icon el-icon-warning"></i> 如有补充修改，请按公司流程找Ronnie索取纸质报表完成补充申报！</p>
     </div>
 
     <div v-if="check == 2">
-      <p>Hero Construction Daily Report</p>
-      <p>如果当天没有完成报表，请按公司流程找Ronnie索取纸质报表完成补充申报!</p>
+      <h1>今日日报</h1>
+      <p style="color:#A67A2B"><i class="el-alert__icon el-icon-warning"></i> 如果当天没有完成报表，请按公司流程找Ronnie索取纸质报表完成补充申报!</p>
       <p>姓名： {{userName}}</p>
-      <p>匯報日期： {{reportDate}}</p>
+      <p>汇报日期： {{reportDate}}</p>
       <!-- start the form -->
       <el-form :key="index" v-for="(inputData, index) in creport.inputData">
         <el-card>
@@ -18,10 +19,10 @@
             <span>工作{{index+1}}</span>
           </div>
           <!-- the end and start work time selector, the durction time will be calculated by js -->
-          <el-form-item label="工作時間" prop="time">
-            <el-time-select
-            style="width: 100%;"
-              placeholder="開始时间"
+          <el-form-item label="工作时间" prop="time">
+            <el-time-select :span="12"
+            style=""
+              placeholder="开始时间"
               v-model="inputData.startTime"
               :picker-options="{
                 start: '06:00',
@@ -30,8 +31,9 @@
                 maxTime: inputData.endTime
               }"
             ></el-time-select>
-            <el-time-select
-            style="width: 100%;"
+            <span>-</span>
+            <el-time-select :span="12"
+            style=""
               placeholder="结束时间"
               v-model="inputData.endTime"
               :picker-options="{
@@ -43,15 +45,15 @@
             ></el-time-select>
           </el-form-item>
 
-          <p>
-            <span
+          <p class="report-time-duration">
+            <span 
               v-if="(inputData.workDurcation = TimeDifference(index))!==''"
-            >工作时间：{{inputData.workDurcation}}</span>
+            >工作时数：{{inputData.workDurcation}}</span>
           </p>
 
           <!-- work location -->
-          <el-form-item label="工作地點" prop="location">
-            <el-select v-model="inputData.workLocation" filterable placeholder="请选择">
+          <el-form-item label="工作地点" prop="location">
+            <el-select :span="11" v-model="inputData.workLocation" filterable placeholder="请选择">
               <el-option
                 v-for="item in jobLocation"
                 :key="item.locationName"
@@ -118,7 +120,7 @@
         show-text
         :texts="['不在状态', '状态欠佳', '正常发挥','干的不错','今天牛逼啦']"
       ></el-rate>
-
+      <hr style="margin-bottom:20px;">
       <!-- submit button -->
       <el-button type="primary" @click="onSubmit">提交日报</el-button>
     </div>
@@ -300,4 +302,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.report-time-duration{
+  margin:0 0 22px;
+  font-weight: 600;
+  color:#A67A2B;
+}
+.time-select-item.selected:not(.disabled){
+  color:#8a1913 !important;
+}
+hr{
+  border-color:rgba(255, 255, 255, 0.38);
+}
+.el-select{
+  width:100%;
+}
+.el-select__tags{
+}
 </style>
