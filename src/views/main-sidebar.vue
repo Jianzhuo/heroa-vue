@@ -59,7 +59,7 @@ export default {
   computed: {
     menuIsDisplay: {
       get() {
-        if (window.screen.width >= 600) {
+        if (document.documentElement['clientWidth'] >= 600) {
           return true;
         } else {
           return !this.sidebarFold;
