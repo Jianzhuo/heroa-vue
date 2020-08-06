@@ -22,7 +22,7 @@
               <el-form-item prop="password">
                 <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
               </el-form-item>
-              <el-form-item prop="captcha">
+              <!-- <el-form-item prop="captcha">
                 <el-row :gutter="20">
                   <el-col :span="14">
                     <el-input v-model="dataForm.captcha" placeholder="验证码"></el-input>
@@ -31,7 +31,7 @@
                     <img :src="captchaPath" @click="getCaptcha()" alt />
                   </el-col>
                 </el-row>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item>
                 <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
               </el-form-item>
@@ -44,15 +44,15 @@
 </template>
 
 <script>
-import { getUUID } from "@/utils";
+// import { getUUID } from "@/utils";
 export default {
   data() {
     return {
       dataForm: {
         userName: "",
         password: "",
-        uuid: "",
-        captcha: "",
+        // uuid: "",
+        // captcha: "",
       },
       dataRule: {
         userName: [
@@ -61,15 +61,15 @@ export default {
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
         ],
-        captcha: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-        ],
+        // captcha: [
+        //   { required: true, message: "验证码不能为空", trigger: "blur" },
+        // ],
       },
-      captchaPath: "",
+      // captchaPath: "",
     };
   },
   created() {
-    this.getCaptcha();
+    // this.getCaptcha();
   },
   methods: {
     // 提交表单
@@ -82,15 +82,15 @@ export default {
             data: this.$http.adornData({
               username: this.dataForm.userName,
               password: this.dataForm.password,
-              uuid: this.dataForm.uuid,
-              captcha: this.dataForm.captcha,
+              // uuid: this.dataForm.uuid,
+              // captcha: this.dataForm.captcha,
             }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$cookie.set("token", data.token);
               this.$router.replace({ name: "home" });
             } else {
-              this.getCaptcha();
+              // this.getCaptcha();
               this.$message.error(data.msg);
             }
           });
@@ -98,12 +98,12 @@ export default {
       });
     },
     // 获取验证码
-    getCaptcha() {
-      this.dataForm.uuid = getUUID();
-      this.captchaPath = this.$http.adornUrl(
-        `/captcha.jpg?uuid=${this.dataForm.uuid}`
-      );
-    },
+    // getCaptcha() {
+    //   this.dataForm.uuid = getUUID();
+    //   this.captchaPath = this.$http.adornUrl(
+    //     `/captcha.jpg?uuid=${this.dataForm.uuid}`
+    //   );
+    // },
   },
 };
 </script>

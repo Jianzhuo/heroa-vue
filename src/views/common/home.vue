@@ -12,12 +12,6 @@
 export default {
   data() {
     return {
-      list: [
-        { name: "John", id: 25 },
-        { name: "Joao", id: 7 },
-        { name: "Albert", id: 12 },
-        { name: "Jean", id: 100 }
-      ]
     };
   }
 };

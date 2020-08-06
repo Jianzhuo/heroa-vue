@@ -94,4 +94,12 @@
 .site-wrapper{
   min-width: 100% !important;
 }
+
+@media screen and (max-width: 600px) {
+  /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+.site-content__wrapper {
+  margin-left: 0;
+}
+
+}
 </style>

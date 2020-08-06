@@ -99,6 +99,11 @@ img {
   .site-content--tabs > .el-tabs > .el-tabs__header {
     left: 64px;
   }
+  @media screen and (max-width: 600px) {
+    .site-content--tabs > .el-tabs > .el-tabs__header {
+      left: 0;
+    }
+  }
 }
 // animation
 .site-navbar__header,
