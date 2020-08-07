@@ -123,6 +123,16 @@ export default {};
 .el-dropdown-menu__item:not(.is-disabled):hover {
   background-color: transparent;
 }
+.el-checkbox__input.is-checked+.el-checkbox__label, .el-radio__input.is-checked+.el-radio__label{
+  color: #8a1913;
+}
+.el-radio__inner:hover{
+  border-color:#8a1913;
+}
+.el-radio__input.is-checked .el-radio__inner{
+  border-color:#8a1913;
+  background-color: #8a1913;
+}
 @media screen and (max-width: 600px) {
   .el-menu-item {
     padding: 0 10px;

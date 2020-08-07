@@ -263,7 +263,10 @@ export default {
     getUsers() {
       this.$http({
         url: this.$http.adornUrl("/app/user/list/constructor"),
-        method: "get"
+        method: "get",
+        params: this.$http.adornParams({
+            'limit': 500,
+        })
       }).then(({ data }) => {
         this.other = data.data;
       });
@@ -272,7 +275,10 @@ export default {
     getLocations() {
       this.$http({
         url: this.$http.adornUrl("/dreport/worklocation/list"),
-        method: "get"
+        method: "get",
+        params: this.$http.adornParams({
+            'limit': 500,
+        })
       }).then(({ data }) => {
         this.jobLocation = data.page.list;
       });
@@ -281,7 +287,10 @@ export default {
     getContent() {
       this.$http({
         url: this.$http.adornUrl("/dreport/workcontent/list"),
-        method: "get"
+        method: "get",
+        params: this.$http.adornParams({
+            'limit': 500,
+        })
       }).then(({ data }) => {
         this.jobContent = data.page.list;
       });
