@@ -87,13 +87,13 @@
           </el-form-item>
 
           <!-- work progress in % -->
-          <el-form-item>
+          <el-form-item prop="progress">
             <span>工作完成进度</span>
             <el-progress :percentage="inputData.workProgress" :color="customColor"></el-progress>
             <div style="margin-top:10px">
               <el-button-group>
-                <el-button icon="el-icon-minus" @click="decrease"></el-button>
-                <el-button icon="el-icon-plus" @click="increase"></el-button>
+                <el-button icon="el-icon-minus" @click="decrease(index)"></el-button>
+                <el-button icon="el-icon-plus" @click="increase(index)"></el-button>
               </el-button-group>
             </div>
           </el-form-item>
@@ -174,11 +174,11 @@ export default {
             workDetail: "",
             workProgress: 20,
             otherWorker: [],
-            workNote: "",
-          },
-        ],
+            workNote: ""
+          }
+        ]
       },
-      date: new Date(),
+      date: new Date()
     };
   },
   computed: {
@@ -192,24 +192,25 @@ export default {
           new Date().getDate() +
           "日"
         );
-      },
+      }
     },
     userName: {
       get() {
         return this.$store.state.user.name;
-      },
+      }
     },
     userId: {
       get() {
         return this.$store.state.user.id;
-      },
-    },
+      }
+    }
   },
   methods: {
     addWork() {
       this.creport.inputData.push({
         startTime: "",
         endTime: "",
+        workProgress: 20
       });
     },
     removeWork(index) {
@@ -217,7 +218,7 @@ export default {
         this.creport.inputData.splice(index, 1);
       }
     },
-    TimeDifference: function (index) {
+    TimeDifference: function(index) {
       if (
         this.creport.inputData[index].startTime != "" &&
         this.creport.inputData[index].endTime != ""
@@ -244,16 +245,16 @@ export default {
       }
       return "";
     },
-    increase() {
-      this.creport.inputData.workProgress += 5;
-      if (this.creport.inputData.workProgress > 100) {
-        this.creport.inputData.workProgress = 100;
+    increase(index) {
+      this.creport.inputData[index].workProgress += 5;
+      if (this.creport.inputData[index].workProgress > 100) {
+        this.creport.inputData[index].workProgress = 100;
       }
     },
-    decrease() {
-      this.creport.inputData.workProgress -= 5;
-      if (this.creport.inputData.workProgress < 0) {
-        this.creport.inputData.workProgress = 0;
+    decrease(index) {
+      this.creport.inputData[index].workProgress -= 5;
+      if (this.creport.inputData[index].workProgress < 0) {
+        this.creport.inputData[index].workProgress = 0;
       }
     },
 
@@ -262,7 +263,7 @@ export default {
     getUsers() {
       this.$http({
         url: this.$http.adornUrl("/app/user/list/constructor"),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         this.other = data.data;
       });
@@ -271,7 +272,7 @@ export default {
     getLocations() {
       this.$http({
         url: this.$http.adornUrl("/dreport/worklocation/list"),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         this.jobLocation = data.page.list;
       });
@@ -280,7 +281,7 @@ export default {
     getContent() {
       this.$http({
         url: this.$http.adornUrl("/dreport/workcontent/list"),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         this.jobContent = data.page.list;
       });
@@ -290,7 +291,7 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/dreport/api/save"),
         method: "post",
-        data: this.$http.adornData(this.creport, false),
+        data: this.$http.adornData(this.creport, false)
       }).then(({ data }) => {
         this.$message({
           message: "日报提交成功",
@@ -298,7 +299,7 @@ export default {
           duration: 1500,
           onClose: () => {
             this.refresh();
-          },
+          }
         });
       });
     },
@@ -306,7 +307,7 @@ export default {
     checkSubmit() {
       this.$http({
         url: this.$http.adornUrl("/dreport/api/check/" + this.userName),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         if (data.data > 0) {
           this.check = 1;
@@ -318,13 +319,13 @@ export default {
         }
         this.loading = false;
       });
-    },
+    }
   },
   //生命周期 - 创建完成 可访问当前this实例
   created() {
     //当该组件创建完成后向服务器发送请求获得数据
     this.checkSubmit();
-  },
+  }
 };
 </script>
 

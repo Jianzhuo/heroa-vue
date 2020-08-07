@@ -5,6 +5,12 @@
       <li>平台管理--用户管理 权限管理 菜单管理</li>
       <li>日报系统--工人日报</li>
     </ul>
+
+    <div v-if="this.$store.state.user.role.includes('constructor')">
+      建筑工人展示区
+    </div>
+
+     {{this.$store.state.user.role}}
   </div>
 </template>
 
