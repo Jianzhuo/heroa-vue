@@ -15,12 +15,12 @@
         <el-date-picker
           v-model="dataForm.reportTime"
           align="right"
-          type="date"
+          type="datetime"
           placeholder="选择日期"
           :picker-options="pickerOptions"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="日报提交者用户id" label-width="auto" prop="reportUserName">
+      <el-form-item label="日报提交者" label-width="auto" prop="reportUserName">
         <el-select v-model="dataForm.reportUserName" filterable placeholder="请选择">
           <el-option
             v-for="item in other"

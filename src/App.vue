@@ -9,6 +9,12 @@ export default {};
 </script>
 
 <style>
+h4{
+  padding-top: 5px;
+}
+.el-message{
+  min-width: 300px;
+}
 .el-button--primary {
   background-color: #8a1913;
   border-color: #8a1913;
@@ -154,6 +160,14 @@ export default {};
     font-size: 14px;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .el-message-box{
+    width: auto;
+  }
+
+  .el-select-dropdown{
+    width: 80%;
   }
 }
 </style>

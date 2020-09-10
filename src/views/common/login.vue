@@ -9,6 +9,7 @@
           </div>
           <div class="login-box">
             <h3 class="login-title">用户登录</h3>
+            <br>
             <el-form
               :model="dataForm"
               :rules="dataRule"
@@ -55,12 +56,12 @@ export default {
         // captcha: "",
       },
       dataRule: {
-        userName: [
-          { required: true, message: "帐号不能为空", trigger: "blur" },
-        ],
-        password: [
-          { required: true, message: "密码不能为空", trigger: "blur" },
-        ],
+        // userName: [
+        //   { required: false, message: "帐号不能为空", trigger: "blur" },
+        // ],
+        // password: [
+        //   { required: false, message: "密码不能为空", trigger: "blur" },
+        // ],
         // captcha: [
         //   { required: true, message: "验证码不能为空", trigger: "blur" },
         // ],
@@ -177,6 +178,7 @@ export default {
     background-color: #fff;
     padding: 30px;
     margin: 0 auto;
+    border-radius: 5px;
   }
   .login-title {
     font-size: 16px;

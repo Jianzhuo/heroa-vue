@@ -1,6 +1,6 @@
 <template>
   <div class="mod-home">
-    <h3>HI 办公平台</h3>
+    <h4>HI 办公平台</h4>
 
     <div v-if="this.$store.state.user.role.includes('constructor')">
       <div class="home-report-thumb" v-on:click="clickReportForm">
@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div v-if="this.$store.state.user.role.includes('admin')">
+    <div v-if="this.$store.state.user.role.includes('reportAdmin')">
       <ul>
         <li>平台管理--用户管理 权限管理 菜单管理</li>
         <li>日报系统--工人日报</li>

@@ -1,11 +1,17 @@
 <template>
   <div class="mod-config">
-    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+    <el-form
+      :inline="true"
+      :model="dataForm"
+      @keyup.enter.native="getDataList()"
+      style="padding-top: 1em"
+    >
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
+        <el-input v-model="dataForm.key" placeholder="参数名" clearable style="width: 60%;"></el-input>
         <el-button @click="getDataList()">查询</el-button>
+      </el-form-item>
+      <br />
+      <el-form-item>
         <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button
           type="danger"
@@ -23,24 +29,54 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="reportId" header-align="center" align="center" label="日报id"></el-table-column>
+      <el-table-column header-align="center" align="center" width="85" label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.reportId)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.reportId)">删除</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="reportId" header-align="center" align="center" label="日报id" width="70"></el-table-column>
       <el-table-column
         sortable
+        width="130"
         header-align="center"
         align="center"
         label="日报提交时间"
         prop="reportTime"
       >
         <template slot-scope="prop">
-          <span>{{prop.row.reportTime.substr(0,10)}}</span>
+          <span>{{new Date(Date.UTC(new Date(prop.row.reportTime).getFullYear(), new Date(prop.row.reportTime).getMonth(), new Date(prop.row.reportTime).getDate())).toISOString().slice(0, 10)}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reportUserName" header-align="center" align="center" label="日报提交者"></el-table-column>
-      <el-table-column type="expand" label="工作" width="90">
+      <el-table-column
+        prop="reportUserName"
+        header-align="center"
+        align="center"
+        width="100"
+        label="日报提交者"
+      ></el-table-column>
+      <el-table-column
+        prop="reportRate"
+        header-align="center"
+        align="center"
+        width="100"
+        label="自我评价"
+      ></el-table-column>
+      <el-table-column type="expand" label="工作" width="60">
         <template slot-scope="props">
-          <el-table :data="props.row.works" border v-loading="dataListLoading" style="width: 100%;">
+          <el-table :data="props.row.works" border v-loading="dataListLoading">
+            <el-table-column header-align="center" align="center" width="100" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  type="text"
+                  size="small"
+                  @click="workAddOrUpdateHandle(props.row.reportId, scope.row.workId)"
+                >修改</el-button>
+                <el-button type="text" size="small" @click="workDeleteHandle(scope.row.workId)">删除</el-button>
+              </template>
+            </el-table-column>
             <el-table-column prop="workId" header-align="center" align="center" label="工作id"></el-table-column>
-            <el-table-column header-align="center" align="center" label="工作开始">
+            <el-table-column prop="workStart" header-align="center" align="center" label="工作开始">
               <template slot-scope="prop">
                 <span>{{prop.row.workStart.substr(0,5)}}</span>
               </template>
@@ -57,38 +93,13 @@
             <el-table-column prop="workDetail" header-align="center" align="center" label="工作细节"></el-table-column>
             <el-table-column prop="workProgress" header-align="center" align="center" label="工作进度"></el-table-column>
             <el-table-column prop="workNote" header-align="center" align="center" label="工作备注"></el-table-column>
-            <el-table-column
-              fixed="right"
-              header-align="center"
-              align="center"
-              width="100"
-              label="操作"
-            >
-              <template slot-scope="scope">
-                <el-button
-                  type="text"
-                  size="small"
-                  @click="workAddOrUpdateHandle(props.row.reportId, scope.row.workId)"
-                >修改</el-button>
-                <el-button type="text" size="small" @click="workDeleteHandle(scope.row.workId)">删除</el-button>
-              </template>
-            </el-table-column>
           </el-table>
-          <el-form :inline="true" style="float:right">
-            <el-form-item>
-              <el-button type="primary" @click="workAddOrUpdateHandle(props.row.reportId)">新增</el-button>
-            </el-form-item>
-          </el-form>
+          <div style="padding-top: 1em">
+            <el-button type="primary" @click="workAddOrUpdateHandle(props.row.reportId)">新增</el-button>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="reportNote" header-align="center" align="center" label="日报备注"></el-table-column>
-      <el-table-column prop="reportRate" header-align="center" align="center" label="自我评价"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.reportId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.reportId)">删除</el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -272,21 +283,33 @@ export default {
         responseType: "arraybuffer"
       })
         .then(function(response) {
-          var date = new Date;
+          var date = new Date();
           if ((response.ok = true)) {
             //获取自定义文件名
-            var fileName = "ConstructorReport-"+date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+"-"+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+".xls";
+            var fileName =
+              "ConstructorReport_" +
+              date.getFullYear() +
+              "_" +
+              (date.getMonth()+1) +
+              "_" +
+              date.getDate() +
+              "_" +
+              date.getHours() +
+              "_" +
+              date.getMinutes() +
+              "_" +
+              date.getSeconds() +
+              ".xls";
             var objectUrl = URL.createObjectURL(new Blob([response.data]));
             var link = document.createElement("a");
             console.log(link);
             link.download = decodeURIComponent(fileName);
             link.href = objectUrl;
             link.click();
-          } 
+          }
         })
         .catch(function(error) {
           console.log(error);
-          
         });
     }
   }

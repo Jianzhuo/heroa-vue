@@ -38,7 +38,7 @@
           <el-menu-item index="2-3"><a href="https://gitee.com/renrenio/renren-generator" target="_blank">代码生成器</a></el-menu-item>
         </el-submenu>-->
         <el-menu-item class="site-navbar__avatar" index="3">
-          <el-dropdown :show-timeout="0" placement="bottom">
+          <el-dropdown :show-timeout="0" placement="bottom" trigger="click">
             <span class="el-dropdown-link">
               <img src="~@/assets/img/avatar.png" :alt="userName" />
               {{ userName }}
@@ -62,7 +62,7 @@ import { clearLoginInfo } from "@/utils";
 export default {
   data() {
     return {
-      updatePassowrdVisible: false
+      updatePassowrdVisible: false,
     };
   },
   components: {
