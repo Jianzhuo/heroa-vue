@@ -26,7 +26,7 @@
     "gulp-shell": "0.6.5",
     "lib-flexible": "^0.3.2",
     "lodash": "^4.17.19",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "npm": "^6.9.0",
     "postcss-px2rem": "^0.3.0",
     "sass-loader": "6.0.6",
